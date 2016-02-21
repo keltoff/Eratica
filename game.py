@@ -15,13 +15,13 @@ if __name__ == "__main__":
     # pygame.display.flip()
 
     world = mm.map((0, 0, 400, 400))
-    world.load('mapdata.txt')
+    world.load('mapdata.xml')
 
     game_over = False
     while not game_over:
 
         # XXX draw all the objects here
-        world.draw()
+        world.draw(display)
 
         # overlays = pygame.sprite.RenderUpdates()
         # overlays.draw(screen)
