@@ -8,7 +8,9 @@ class map:
         self.area = pygame.Rect(size)
         self.data = None
         self.terrain = None
-        self.tile_size = 60
+        self.tile_size = 40
+        self.origin = (150, 20)
+        self.frame_color = (255, 200, 150)
 
     def load(self, file):
         data = et.parse(file)
@@ -20,11 +22,14 @@ class map:
             self.terrain[att['key']] = TerrainType(att)
 
     def draw(self, surface):
-        pygame.draw.rect(surface, (255, 200, 150), self.area, 2)
-
-        for x, y in product(range(self.area.width / self.tile_size), range(self.area.height / self.tile_size)):
-            ter = self.terrain[self.data[y][x]]
-            pygame.draw.rect(surface, ter['color'], pygame.Rect(x * self.tile_size, y * self.tile_size, self.tile_size, self.tile_size))
+        tile = pygame.Rect(0, 0, self.tile_size, self.tile_size).move(-self.origin[0], -self.origin[1])
+        if self.data:
+            for y, x in product(range(len(self.data)), range(len(self.data[0]))):
+                ter = self.terrain[self.data[y][x]]
+                target = tile.move(x * self.tile_size, y * self.tile_size).clip(self.area)
+                if target.width > 0:
+                    pygame.draw.rect(surface, ter['color'], target)
+        pygame.draw.rect(surface, self.frame_color, self.area, 2)
 
 
 class TerrainType:
