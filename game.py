@@ -5,6 +5,9 @@ import pygame.locals
 
 import map as mm
 from mouse import Mouse
+from gui.gui import Gui
+from gui.button import Button
+from pygame.rect import Rect
 
 if __name__ == "__main__":
     pygame.init()
@@ -15,6 +18,11 @@ if __name__ == "__main__":
 
     mouse = Mouse(display)
 
+    gui = Gui()
+    gui.add(Button(Rect(500, 50, 100, 40), (255, 200, 0)))
+    gui.add(Button(Rect(500, 110, 100, 40), (255, 200, 0)))
+    gui.add(Button(Rect(450, 400, 150, 50), (255, 200, 0)))
+
     # overlays = pygame.sprite.RenderUpdates()
     # pygame.display.flip()
 
@@ -24,10 +32,13 @@ if __name__ == "__main__":
     game_over = False
     while not game_over:
 
+        c = gui.get_cursor_at(mouse.get_pos())
+
         # XXX draw all the objects here
         display.fill((0, 0, 0))
         world.draw(display)
-        mouse.draw(display)
+        gui.draw(display)
+        mouse.draw(display, c)
 
         # overlays = pygame.sprite.RenderUpdates()
         # overlays.draw(screen)
