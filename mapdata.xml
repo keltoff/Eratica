@@ -8,7 +8,13 @@
         ...............
         ..........+....
     </data>
-    <terrain name="plain" key="." color="(0, 100, 100)"></terrain>
-    <terrain name="rock" key="x" color="(100, 100, 100)"></terrain>
-    <terrain name="tree" key="+" color="(0, 250, 0)"></terrain>
+    <terrain name="plain" key="." color="(0, 100, 100)" />
+    <terrain name="rock" key="x" color="(100, 100, 100)" />
+    <terrain name="tree" key="+" color="(0, 250, 0)" />
+    <places>
+        <cave pos="(2, 3)" key=" U" color="(0, 0, 0)" />
+        <cave pos="(9, 3)" key=" U" color="(0, 0, 0)" />
+        <cave pos="(13, 1)" key=" U" color="(0, 0, 0)" />
+        <monster pos="(5, 2)" type="^_^" color="(250, 0, 0)" />
+    </places>
 </map>

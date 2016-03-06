@@ -26,7 +26,7 @@ if __name__ == "__main__":
     # overlays = pygame.sprite.RenderUpdates()
     # pygame.display.flip()
 
-    world = mm.map(Rect(0, 0, 400, 400))
+    world = mm.Map(Rect(0, 0, 400, 400))
     world.load('mapdata.xml')
     gui.add(world)
 
