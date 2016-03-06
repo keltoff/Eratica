@@ -8,7 +8,8 @@ class Mouse:
         #self.cursors = {None: im.load("graphics/Cursor_ST416.png").convert_alpha(surface),
         #                'hand': im.load("graphics/Cursor_GreyLight.png").convert_alpha(surface) }
         self.cursors = {None: (0, 0, 250),
-                        'hand': (250, 0, 0)}
+                        'hand': (250, 0, 0),
+                        'frame': (150, 150, 150)}
         self.cursor = None
 
     def get_pos(self):

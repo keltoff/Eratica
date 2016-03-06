@@ -1,17 +1,12 @@
-import pygame.font
+import coords
 
 class Gui:
     def __init__(self):
         self.parts = []
 
-        pygame.font.init()
-        self.font = pygame.font.SysFont('default', 50)
-
-
     def draw(self, surface):
         for part in self.parts:
             part.draw(surface)
-        surface.blit(self.font.render('{}'.format(pygame.mouse.get_pos()), True, (0, 200, 0)), (50, 420))
 
     def process_event(self, event):
         relevant = True  #hack
@@ -33,6 +28,6 @@ class Gui:
     def get_cursor_at(self, pos):
         part = self.get_part_at(pos)
         if part:
-            return part.get_cursor(pos)
+            return part.get_cursor(coords.Coord(pos) - part.area.topleft)
         else:
             return None

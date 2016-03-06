@@ -26,8 +26,9 @@ if __name__ == "__main__":
     # overlays = pygame.sprite.RenderUpdates()
     # pygame.display.flip()
 
-    world = mm.map((0, 0, 400, 400))
+    world = mm.map(Rect(0, 0, 400, 400))
     world.load('mapdata.xml')
+    gui.add(world)
 
     game_over = False
     while not game_over:
@@ -36,7 +37,6 @@ if __name__ == "__main__":
 
         # XXX draw all the objects here
         display.fill((0, 0, 0))
-        world.draw(display)
         gui.draw(display)
         mouse.draw(display, c)
 
