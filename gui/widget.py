@@ -11,3 +11,9 @@ class widget:
 
     def process_event(self, event):
         pass
+
+    def click(self, pos, button):
+        pass
+
+    def mouse_move(self, pos):
+        pass

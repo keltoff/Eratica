@@ -1,17 +1,13 @@
 import pygame
+import pygame.locals as pl
 import xml.etree.ElementTree as et
 from itertools import product
 from ast import literal_eval as evaluate
 from gui.widget import widget
 import pygame.font
-import coords
-
-pygame.font.init()
-textfont = pygame.font.SysFont('default', 50)
-
-
-def __textout__(surface, text, pos, color=(0, 200, 0)):
-    surface.blit(textfont.render(text, True, color), pos)
+from coords import Pt
+from collections import defaultdict
+from text_helper import draw_text
 
 
 class Map(widget):
@@ -20,9 +16,11 @@ class Map(widget):
         self.data = None
         self.terrain = None
         self.tile_size = 40
-        self.origin = coords.Coord(150, 20)
+        self.origin = Pt(150, 20)
         self.frame_color = (255, 200, 150)
         self.selected_tile = None
+        self.scroll_speed = Pt(0, 0)
+        self.keydir = __build_keydir__()
 
         self.places = None
         self.monsters = None
@@ -50,10 +48,9 @@ class Map(widget):
         if self.data:
             for y, x in product(range(len(self.data)), range(len(self.data[0]))):
                 ter = self.terrain[self.data[y][x]]
-                target = tile.move(current_view(coords.Coord(x, y))).clip(self.area)
+                target = tile.move(current_view(Pt(x, y))).clip(self.area)
                 if target.width > 0:
                     pygame.draw.rect(surface, ter['color'], target)
-        pygame.draw.rect(surface, self.frame_color, self.area, 2)
 
         for c in self.places:
             c.draw(surface, current_view)
@@ -64,17 +61,25 @@ class Map(widget):
         if self.selected_tile:
             textpos = self.area.topleft
             surface.blit(self.font.render('{}'.format(self.selected_tile), True, (0, 200, 0)), textpos)
-            pygame.draw.rect(surface, (0, 100, 200), tile.move(current_view(self.selected_tile)), 1)
+            pygame.draw.rect(surface, (200, 200, 50), tile.move(current_view(self.selected_tile)), 1)
+
+        # component frame
+        pygame.draw.rect(surface, self.frame_color, self.area, 2)
+
+    def update(self):
+        self.origin += self.scroll_speed * 3
+
+        if self.origin.x < 0:
+            self.origin = Pt(0, self.origin.y)
+
+        if self.origin.y < 0:
+            self.origin = Pt(self.origin.x, 0)
 
     def get_cursor(self, pos):
-        self.selected_tile, _ = self.tile_at(pos)
-        if self.selected_tile:
+        if self.tile_at(pos)[0]:
             return 'frame'
         else:
             return None
-
-    def process_event(self, event):
-        pass
 
     def tile_at(self, pos):
         tilepos = (pos + self.origin) / self.tile_size
@@ -83,6 +88,29 @@ class Map(widget):
             return tilepos, self.data[y][x]
         else:
             return None, None
+
+    # event handling
+    def process_event(self, event):
+        if event.type == pl.KEYDOWN:
+            # fast = event.mod
+            self.scroll_speed += self.keydir[event.key]
+        if event.type == pl.KEYUP:
+            self.scroll_speed -= self.keydir[event.key]
+
+    def click(self, pos, button):
+        pass
+
+    def mouse_move(self, pos):
+        self.selected_tile, _ = self.tile_at(pos)
+
+
+def __build_keydir__():
+    keydir = defaultdict(lambda: Pt(0, 0))
+    keydir[pl.K_UP] = Pt(0, -1)
+    keydir[pl.K_DOWN] = Pt(0, 1)
+    keydir[pl.K_LEFT] = Pt(-1, 0)
+    keydir[pl.K_RIGHT] = Pt(1, 0)
+    return keydir
 
 
 class TerrainType:
@@ -96,21 +124,21 @@ class TerrainType:
 
 class Monster:
     def __init__(self, data):
-        self.pos = coords.Coord(evaluate(data['pos']))
+        self.pos = Pt(evaluate(data['pos']))
         self.type = data['type']
         self.color = evaluate(data['color'])
 
     def draw(self, surface, pos_correction):
         target = pos_correction(self.pos)
-        __textout__(surface, self.type, target, self.color)
+        draw_text(surface, self.type, target, self.color)
 
 
 class Cave:
     def __init__(self, data):
-        self.pos = coords.Coord(evaluate(data['pos']))
+        self.pos = Pt(evaluate(data['pos']))
         self.key = data['key']
         self.color = evaluate(data['color'])
 
     def draw(self, surface, pos_correction):
         target = pos_correction(self.pos)
-        __textout__(surface, self.key, target, self.color)
+        draw_text(surface, self.key, target, self.color)

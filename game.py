@@ -32,6 +32,7 @@ if __name__ == "__main__":
 
     game_over = False
     while not game_over:
+        world.update()
 
         c = gui.get_cursor_at(mouse.get_pos())
 
@@ -47,7 +48,4 @@ if __name__ == "__main__":
         for event in pygame.event.get():
             if event.type == pygame.locals.QUIT:
                 game_over = True
-            elif event.type == pygame.locals.KEYDOWN:
-                pass
-            elif event.type == pygame.locals.KEYUP:
-                pass
+            gui.process_event(event)
