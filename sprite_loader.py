@@ -15,15 +15,7 @@ def load(filename):
     img_file = path.join(sprite_dir, gdata['file'])
     transparent = gdata.get('transparent', False)
 
-    graphic = pygame.image.load(img_file)
-    if transparent:
-        if transparent in ['default', 'yes', 'True']:
-            transparent = True
-        elif transparent in ['no', 'False', 'None']:
-            transparent = False
-        else:
-            graphic.set_colorkey(evaluate(transparent))
-            transparent = 'key'
+    graphic, transparentce = load_img(gdata['file'], gdata.get('transparent', False))
 
     sprites = dict()
     for snode in root.findall('./sprite'):
@@ -87,14 +79,43 @@ def rect2str(rect):
     return '({}, {}, {}, {})'.format(rect.left, rect.top, rect.width, rect.height)
 
 
-def slice(img_file):
-    img_file = path.join(sprite_dir, img_file)
+def load_img(file, transparency=None):
+    img_file = path.join(sprite_dir, file)
     graphic = pygame.image.load(img_file)
 
+    transparence_key = False
+    if transparency:
+        if transparency in ['default', 'yes', 'True']:
+            transparence_key = True
+        elif transparency in ['no', 'False', 'None']:
+            transparence_key = False
+        elif transparency.__class__ == str:
+            transparency = evaluate(transparency)
+
+        if transparency.__class__ == tuple:
+            graphic.set_colorkey(transparency)
+            transparence_key = 'key'
+
+    return graphic, transparence_key
+
+
+def slice_grid(img_file, tile_size, gap=0, margin=0, transparency=None):
+    graphic, _ = load_img(img_file, transparency)
+    w, h = graphic.get_size()
+
+    i = 0
     sprites = dict()
-    # chop chop
+    for ix, x in enumerate(range(margin, w-margin-tile_size, tile_size + gap)):
+        for iy, y in enumerate(range(margin, h-margin-tile_size, tile_size + gap)):
+            sprites[i] = {0: pygame.Rect(x, y, tile_size, tile_size)}
+            sprites[(ix, iy)] = sprites[i]
+            i += 1
 
     return SpriteSet(graphic, sprites)
+
+
+def slice_smart(img_file):
+    NotImplemented()
 
 
 class SpriteSet:
