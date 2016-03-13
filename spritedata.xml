@@ -1,0 +1,16 @@
+<set name="pokemon">
+    <graphics file="bgwch2.jpg.png" transparent="(255, 255, 255)" />
+    <sprite key="green">
+        <img rect="(1, 1, 80, 80)" key="small" />
+        <img rect="(82, 1, 80, 80)" key="mid" />
+        <img rect="(163, 1, 80, 80)" key="big" />
+        <alias key="chibi" means="small" />
+    </sprite>
+    <sprite key="red">
+        <img rect="(244, 1, 80, 80)" key="small" />
+        <img rect="(325, 1, 80, 80)" key="mid" />
+        <img rect="(406, 1, 80, 80)" key="big" />
+        <alias key="chibi" means="small" />
+    </sprite>
+    <alias key="bulbasaur" means="green" />
+</set>
