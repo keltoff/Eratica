@@ -40,6 +40,11 @@ class Map(widget):
         self.places = [Cave(c.attrib) for c in data.findall('.//places/cave')]
 
     def draw(self, surface):
+        surface.fill((0, 0, 0), self.area)
+        self.draw_map(surface.subsurface(self.area))
+        pygame.draw.rect(surface, self.frame_color, self.area, 2)
+
+    def draw_map(self, surface):
         tile = pygame.Rect(0, 0, self.tile_size, self.tile_size)
 
         def current_view(X):
@@ -48,7 +53,7 @@ class Map(widget):
         if self.data:
             for y, x in product(range(len(self.data)), range(len(self.data[0]))):
                 ter = self.terrain[self.data[y][x]]
-                target = tile.move(current_view(Pt(x, y))).clip(self.area)
+                target = tile.move(current_view(Pt(x, y)))
                 if target.width > 0:
                     pygame.draw.rect(surface, ter['color'], target)
 
@@ -59,12 +64,8 @@ class Map(widget):
             m.draw(surface, current_view)
 
         if self.selected_tile:
-            textpos = self.area.topleft
-            surface.blit(self.font.render('{}'.format(self.selected_tile), True, (0, 200, 0)), textpos)
+            draw_text(surface, '{}'.format(self.selected_tile), self.area.topleft, (0, 200, 0))
             pygame.draw.rect(surface, (200, 200, 50), tile.move(current_view(self.selected_tile)), 1)
-
-        # component frame
-        pygame.draw.rect(surface, self.frame_color, self.area, 2)
 
     def update(self):
         self.origin += self.scroll_speed * 3
