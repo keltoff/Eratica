@@ -10,12 +10,10 @@ sprite_dir = '.'
 
 def load(filename):
     root = et.parse(filename)
-
     gdata = root.find('./graphics').attrib
-    img_file = path.join(sprite_dir, gdata['file'])
-    transparent = gdata.get('transparent', False)
 
-    graphic, transparentce = load_img(gdata['file'], gdata.get('transparent', False))
+    result = SpriteSet()
+    result.load_image(gdata['file'], gdata.get('transparent', False))
 
     sprites = dict()
     for snode in root.findall('./sprite'):
@@ -32,19 +30,17 @@ def load(filename):
     for alias in root.findall('./alias'):
         sprites[alias.attrib['key']] = sprites[alias.attrib['means']]
 
-    result = SpriteSet(graphic, sprites)
-    result.graphic_file = filename
-    result.transparence = transparent
+    result.rects = sprites
     return result
 
 
 def save(sprite_set, filename):
     root = et.Element("set")
 
-    transparence = '{}'.format(sprite_set.transparence)
-    if transparence == 'key':
-        transparence = '{}'.format(sprite_set.graphic.get_colorkey())
-    et.SubElement(root, "graphics", file=sprite_set.graphic_file, transparent=transparence)
+    transparency = '{}'.format(sprite_set.transparency)
+    if transparency == 'key':
+        transparency = '{}'.format(sprite_set.graphics.get_colorkey())
+    et.SubElement(root, "graphics", file=sprite_set.graphic_file, transparent=transparency)
 
     previous = []
     for key in sprite_set.rects:
@@ -59,7 +55,7 @@ def add_sprite_node(root, key, rect_dict, previous):
         # et.SubElement(root, 'alias', key=key, means=previous[rect_dict])
         pass
     else:
-        snode = et.SubElement(root, 'sprite', key=key)
+        snode = et.SubElement(root, 'sprite', key='{}'.format(key))
         previous.append(rect_dict)
         prev_imgs = []
         for sp_key in rect_dict:
@@ -79,39 +75,21 @@ def rect2str(rect):
     return '({}, {}, {}, {})'.format(rect.left, rect.top, rect.width, rect.height)
 
 
-def load_img(file, transparency=None):
-    img_file = path.join(sprite_dir, file)
-    graphic = pygame.image.load(img_file)
-
-    transparence_key = False
-    if transparency:
-        if transparency in ['default', 'yes', 'True']:
-            transparence_key = True
-        elif transparency in ['no', 'False', 'None']:
-            transparence_key = False
-        elif transparency.__class__ == str:
-            transparency = evaluate(transparency)
-
-        if transparency.__class__ == tuple:
-            graphic.set_colorkey(transparency)
-            transparence_key = 'key'
-
-    return graphic, transparence_key
-
-
 def slice_grid(img_file, tile_size, gap=0, margin=0, transparency=None):
-    graphic, _ = load_img(img_file, transparency)
+    result = SpriteSet()
+    graphic = result.load_image(img_file, transparency)
     w, h = graphic.get_size()
 
     i = 0
     sprites = dict()
-    for ix, x in enumerate(range(margin, w-margin-tile_size, tile_size + gap)):
-        for iy, y in enumerate(range(margin, h-margin-tile_size, tile_size + gap)):
+    for ix, x in enumerate(range(margin, w-margin, tile_size + gap)):
+        for iy, y in enumerate(range(margin, h-margin, tile_size + gap)):
             sprites[i] = {0: pygame.Rect(x, y, tile_size, tile_size)}
             sprites[(ix, iy)] = sprites[i]
             i += 1
 
-    return SpriteSet(graphic, sprites)
+    result.rects = sprites
+    return result
 
 
 def slice_smart(img_file):
@@ -119,11 +97,11 @@ def slice_smart(img_file):
 
 
 class SpriteSet:
-    def __init__(self, graphics, sprites):
+    def __init__(self, graphics=None, sprites=None):
         self.graphics = graphics
         self.rects = sprites
         self.graphic_file = None
-        self.transparence = True
+        self.transparency = True
 
     def __getitem__(self, item):
         if item is tuple:
@@ -158,3 +136,23 @@ class SpriteSet:
             for img_val in sprite_val.values():
                 pygame.draw.rect(target, sec_col, img_val, 2)
             pygame.draw.rect(target, frame_col, sprite_val[0], 2)
+
+    def load_image(self, filename, transparency=None):
+        img_file = path.join(sprite_dir, filename)
+        self.graphics = pygame.image.load(img_file)
+        self.graphic_file = filename
+    
+        self.transparency = False
+        if transparency:
+            if transparency in ['default', 'yes', 'True']:
+                self.transparency = True
+            elif transparency in ['no', 'False', 'None']:
+                self.transparency = False
+            elif transparency.__class__ == str:
+                transparency = evaluate(transparency)
+    
+            if transparency.__class__ == tuple:
+                self.graphics.set_colorkey(transparency)
+                self.transparency = 'key'
+    
+        return self.graphics
