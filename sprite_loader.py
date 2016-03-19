@@ -114,7 +114,10 @@ class SpriteSet:
 
     def get_sprite(self, key, subkey=None):
         if not subkey:
-            subkey = 0
+            if key.__class__ == tuple:
+                key, subkey = key
+            else:
+                subkey = 0
 
         return self.graphics.subsurface(self.rects[key][subkey])
 

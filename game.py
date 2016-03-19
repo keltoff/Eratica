@@ -8,6 +8,7 @@ from mouse import Mouse
 from gui.gui import Gui
 from gui.button import Button
 from pygame.rect import Rect
+import sprite_loader as sl
 
 if __name__ == "__main__":
     pygame.init()
@@ -26,8 +27,12 @@ if __name__ == "__main__":
     # overlays = pygame.sprite.RenderUpdates()
     # pygame.display.flip()
 
+    sl.sprite_dir = 'C:\Users\M\Desktop\graphics'
+    spriteset = sl.load('sprite_tiles.xml')
+
     world = mm.Map(Rect(0, 0, 400, 400))
     world.load('mapdata.xml')
+    world.sprites = spriteset
     gui.add(world)
 
     game_over = False

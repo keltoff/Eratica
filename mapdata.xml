@@ -5,16 +5,29 @@
         ....xxx......+.
         ....x.xxx......
         ....x..........
-        ...............
-        ..........+....
+        ~~~...~~.......
+        ~~~~~~~~..+....
     </data>
-    <terrain name="plain" key="." color="(0, 100, 100)" />
-    <terrain name="rock" key="x" color="(100, 100, 100)" />
-    <terrain name="tree" key="+" color="(0, 250, 0)" />
+    <terrain name="plain" key="." sprite="grass" color="(0, 100, 100)" />
+    <terrain key="x"
+             name="forest"
+             sprite="tree"
+             borders="yes" corners="yes"
+             color="(100, 100, 100)" />
+    <terrain key="+"
+             name="stump"
+             sprite="stump"
+             color="(0, 250, 0)" />
+    <terrain key="~"
+             name="water"
+             sprite="water"
+             borders="yes"
+             color="(250, 0, 0)" />
     <places>
-        <cave pos="(2, 3)" key=" U" color="(0, 0, 0)" />
-        <cave pos="(9, 3)" key=" U" color="(0, 0, 0)" />
-        <cave pos="(13, 1)" key=" U" color="(0, 0, 0)" />
-        <monster pos="(5, 2)" type="^_^" color="(250, 0, 0)" />
+        <cave pos="(2, 3)" key="chest" color="(0, 0, 0)" />
+        <cave pos="(9, 3)" key="chest" color="(0, 0, 0)" />
+        <cave pos="(13, 1)" key="castle" color="(0, 0, 0)" />
+        <monster pos="(5, 2)" type="boar" color="(250, 0, 0)" />
+        <monster pos="(4, 6)" type="drake" color="(250, 0, 0)" />
     </places>
 </map>

@@ -24,6 +24,8 @@
         <img key="1100" rect="(192, 0, 32, 32)"/>
         <img key="0001" rect="(224, 0, 32, 32)"/>
         <img key="0100" rect="(288, 0, 32, 32)"/>
+
+        <alias key="0000" means="0" />
         <img key="wavy" rect="(256, 0, 32, 32)"/>
     </sprite>
     <sprite key="tree">
@@ -43,6 +45,7 @@
         <img key="0100" rect="(224, 64, 32, 32)"/>
         <img key="1011" rect="(256, 64, 32, 32)"/>
         <img key="1110" rect="(288, 64, 32, 32)"/>
+        <alias key="0000" means="0" />
 
         <img key="c1001" rect="(96, 96, 32, 32)"/>
         <img key="c1100" rect="(128, 96, 32, 32)"/>
@@ -64,6 +67,10 @@
     <sprite key="gold">
         <img key="0" rect="(96, 128, 32, 32)"/>
     </sprite>
+    <sprite key="stump">
+        <img key="stump" rect="(288, 96, 32, 32)"/>
+    </sprite>
+
     <sprite key="boar">
         <img key="0" rect="(96, 192, 32, 32)"/>
     </sprite>
