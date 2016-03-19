@@ -1,0 +1,140 @@
+<set>
+    <graphics file="fantasy_tiles.png" transparent="True"/>
+
+    <sprite key="grass">
+        <img key="0" rect="(32, 0, 32, 32)"/>
+        <img key="0101" rect="(32, 96, 32, 32)"/>
+        <img key="stump" rect="(288, 96, 32, 32)"/>
+        <img key="flowers1" rect="(224, 96, 32, 32)"/>
+        <img key="flowers2" rect="(256, 96, 32, 32)"/>
+    </sprite>
+
+    <sprite key="water">
+        <img key="0" rect="(0, 0, 32, 32)"/>
+        <img key="0011" rect="(0, 32, 32, 32)"/>
+        <img key="0010" rect="(32, 32, 32, 32)"/>
+        <img key="1001" rect="(64, 0, 32, 32)"/>
+        <img key="1101" rect="(96, 32, 32, 32)"/>
+        <img key="1001" rect="(128, 0, 32, 32)"/>
+        <img key="0111" rect="(128, 32, 32, 32)"/>
+        <img key="0110" rect="(64, 32, 32, 32)"/>
+        <img key="1100" rect="(96, 0, 32, 32)"/>
+        <img key="1000" rect="(160, 0, 32, 32)"/>
+        <img key="1111" rect="(160, 32, 32, 32)"/>
+        <img key="1100" rect="(192, 0, 32, 32)"/>
+        <img key="0001" rect="(224, 0, 32, 32)"/>
+        <img key="0100" rect="(288, 0, 32, 32)"/>
+        <img key="wavy" rect="(256, 0, 32, 32)"/>
+    </sprite>
+    <sprite key="tree">
+        <img key="0" rect="(64, 96, 32, 32)"/>
+        <img key="0010" rect="(64, 64, 32, 32)"/>
+        <img key="0110" rect="(0, 64, 32, 32)"/>
+        <img key="1010" rect="(0, 96, 32, 32)"/>
+        <img key="1000" rect="(32, 64, 32, 32)"/>
+        <img key="1101" rect="(96, 64, 32, 32)"/>
+        <img key="0101" rect="(128, 64, 32, 32)"/>
+        <img key="1111" rect="(192, 32, 32, 32)"/>
+        <img key="1001" rect="(224, 32, 32, 32)"/>
+        <img key="1100" rect="(256, 32, 32, 32)"/>
+        <img key="0011" rect="(288, 32, 32, 32)"/>
+        <img key="0111" rect="(160, 64, 32, 32)"/>
+        <img key="0001" rect="(192, 64, 32, 32)"/>
+        <img key="0100" rect="(224, 64, 32, 32)"/>
+        <img key="1011" rect="(256, 64, 32, 32)"/>
+        <img key="1110" rect="(288, 64, 32, 32)"/>
+
+        <img key="c1001" rect="(96, 96, 32, 32)"/>
+        <img key="c1100" rect="(128, 96, 32, 32)"/>
+        <img key="c0011" rect="(160, 96, 32, 32)"/>
+        <img key="c0110" rect="(192, 96, 32, 32)"/>
+    </sprite>
+    <sprite key="chest">
+        <img key="closed" rect="(0, 128, 32, 32)"/>
+        <img key="open" rect="(32, 128, 32, 32)"/>
+    </sprite>
+    <sprite key="drake">
+        <img key="small" rect="(0, 192, 32, 32)"/>
+        <img key="mid" rect="(32, 192, 32, 32)"/>
+        <img key="big" rect="(64, 192, 32, 32)"/>
+    </sprite>
+    <sprite key="bag">
+        <img key="0" rect="(64, 128, 32, 32)"/>
+    </sprite>
+    <sprite key="gold">
+        <img key="0" rect="(96, 128, 32, 32)"/>
+    </sprite>
+    <sprite key="boar">
+        <img key="0" rect="(96, 192, 32, 32)"/>
+    </sprite>
+    <sprite key="castle">
+        <img key="0" rect="(128, 192, 64, 32)"/>
+        <img key="L" rect="(128, 192, 32, 32)"/>
+        <img key="R" rect="(160, 192, 32, 32)"/>
+    </sprite>
+
+
+    <sprite key="priest">
+        <img key="0" rect="(128, 128, 32, 32)"/>
+    </sprite>
+    <sprite key="digger">
+        <img key="0" rect="(160, 128, 32, 32)"/>
+    </sprite>
+    <sprite key="wizard">
+        <img key="0" rect="(288, 160, 32, 32)"/>
+    </sprite>
+
+    <sprite key="skeleton">
+        <img key="0" rect="(224, 192, 32, 32)"/>
+    </sprite>
+    <sprite key="purple">
+        <img key="guy" rect="(192, 192, 32, 32)"/>
+        <img key="girl" rect="(288, 192, 32, 32)"/>
+    </sprite>
+
+    <sprite key="soldier_gray">
+        <img key="0" rect="(0, 160, 32, 32)"/>
+        <img key="captain" rect="(32, 160, 32, 32)"/>
+    </sprite>
+    <sprite key="soldier_moss">
+        <img key="buckler" rect="(64, 160, 32, 32)"/>
+        <img key="shield" rect="(96, 160, 32, 32)"/>
+        <img key="captain" rect="(128, 160, 32, 32)"/>
+    </sprite>
+
+
+    <sprite key="41">
+        <img key="0" rect="(160, 192, 32, 32)"/>
+    </sprite>
+    <sprite key="46">
+        <img key="0" rect="(192, 128, 32, 32)"/>
+    </sprite>
+    <sprite key="47">
+        <img key="0" rect="(192, 160, 32, 32)"/>
+    </sprite>
+    <sprite key="53">
+        <img key="0" rect="(224, 128, 32, 32)"/>
+    </sprite>
+    <sprite key="54">
+        <img key="0" rect="(224, 160, 32, 32)"/>
+    </sprite>
+    <sprite key="60">
+        <img key="0" rect="(256, 128, 32, 32)"/>
+    </sprite>
+    <sprite key="62">
+        <img key="0" rect="(256, 192, 32, 32)"/>
+    </sprite>
+    <sprite key="(2, 6)">
+        <img key="0" rect="(64, 192, 32, 32)"/>
+    </sprite>
+    <sprite key="(9, 4)">
+        <img key="0" rect="(288, 128, 32, 32)"/>
+    </sprite>
+    <sprite key="26">
+        <img key="0" rect="(96, 160, 32, 32)"/>
+    </sprite>
+    <sprite key="knight2">
+        <img key="0" rect="(256, 160, 32, 32)"/>
+    </sprite>
+
+</set>
