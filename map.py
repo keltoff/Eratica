@@ -68,8 +68,8 @@ class Map(widget):
             self.sprites.blit(surface, tile.move(current_view(m.pos)), m.type)
 
         if self.selected_tile:
-            draw_text(surface, '{}'.format(self.selected_tile), self.area.topleft, (0, 200, 0))
-            pygame.draw.rect(surface, (200, 200, 50), tile.move(current_view(self.selected_tile)), 1)
+            # draw_text(surface, '{}'.format(self.selected_tile), self.area.topleft, (0, 200, 0))
+            pygame.draw.rect(surface, pygame.Color('red'), tile.move(current_view(self.selected_tile)), 2)
 
     def neighborhood(self, x, y, ter):
         if not ter.borders:
@@ -119,6 +119,9 @@ class Map(widget):
         else:
             return None, None
 
+    def tile_selected(self, pos):
+        pass
+
     # event handling
     def process_event(self, event):
         if event.type == pl.KEYDOWN:
@@ -128,10 +131,10 @@ class Map(widget):
             self.scroll_speed -= self.keydir[event.key]
 
     def click(self, pos, button):
-        pass
+        self.selected_tile, _ = self.tile_at(pos)
 
     def mouse_move(self, pos):
-        self.selected_tile, _ = self.tile_at(pos)
+        pass
 
 
 def __build_keydir__():

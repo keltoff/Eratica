@@ -20,7 +20,7 @@ class Gui:
         elif event.type == pl.MOUSEBUTTONDOWN:
             part = self.get_part_at(event.pos)
             if part:
-                part.click(event.button, Pt(event.pos))
+                part.click(Pt(event.pos), event.button)
 
         for p in self.parts:
             p.process_event(event)
