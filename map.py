@@ -1,12 +1,13 @@
-import pygame
-import pygame.locals as pl
 import xml.etree.ElementTree as et
-from itertools import product
 from ast import literal_eval as evaluate
-from gui.widget import widget
+from itertools import product
+
+import pygame
 import pygame.font
-from coords import Pt
-from safedict import SafeDict
+import pygame.locals as pl
+
+from auxiliary import Pt, SafeDict
+from gui.widget import widget
 from text_helper import draw_text
 
 

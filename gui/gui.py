@@ -1,6 +1,6 @@
-from coords import Pt
 import pygame.locals as pl
-import pygame.mouse as pm
+
+from auxiliary import Pt
 
 
 class Gui:

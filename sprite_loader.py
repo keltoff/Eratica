@@ -1,9 +1,10 @@
-import xml.etree.ElementTree as et
 import os.path as path
+import xml.etree.ElementTree as et
 from ast import literal_eval as evaluate
+
 import pygame
-from coords import Pt
-from safedict import SafeDict
+
+from auxiliary import Pt, SafeDict
 
 sprite_dir = '.'
 
