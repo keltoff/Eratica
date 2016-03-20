@@ -6,7 +6,7 @@ from ast import literal_eval as evaluate
 from gui.widget import widget
 import pygame.font
 from coords import Pt
-from collections import defaultdict
+from safedict import SafeDict
 from text_helper import draw_text
 
 
@@ -16,7 +16,7 @@ class Map(widget):
         self.data = None
         self.terrain = None
         self.tile_size = 32
-        self.origin = Pt(150, 20)
+        self.origin = Pt(0, 0)
         self.frame_color = (255, 200, 150)
         self.selected_tile = None
         self.scroll_speed = Pt(0, 0)
@@ -134,11 +134,12 @@ class Map(widget):
 
 
 def __build_keydir__():
-    keydir = defaultdict(lambda: Pt(0, 0))
+    keydir = SafeDict()
     keydir[pl.K_UP] = Pt(0, -1)
     keydir[pl.K_DOWN] = Pt(0, 1)
     keydir[pl.K_LEFT] = Pt(-1, 0)
     keydir[pl.K_RIGHT] = Pt(1, 0)
+    keydir.default = Pt(0, 0)
     return keydir
 
 

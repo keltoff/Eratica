@@ -3,6 +3,7 @@ import os.path as path
 from ast import literal_eval as evaluate
 import pygame
 from coords import Pt
+from safedict import SafeDict
 
 sprite_dir = '.'
 
@@ -29,13 +30,14 @@ def load(filename):
     for alias in root.findall('./alias'):
         sprites[alias.attrib['key']] = sprites[alias.attrib['means']]
 
-    cursors = dict()
+    cursors = SafeDict()
     for cnode in root.findall('./cursor'):
         rect = pygame.Rect(evaluate(cnode.attrib['rect']))
         hotspot = Pt(evaluate(cnode.attrib.get('hotspot', (0, 0))))
-        cursors[cnode.attrib['key']] = (rect, hotspot)
+        cdata = (rect, hotspot)
+        cursors[cnode.attrib['key']] = cdata
         if cnode.attrib.get('default', False):
-            cursors[None] = cursors[cnode.attrib['key']]
+            cursors.default = cdata
 
     result.rects = sprites
     result.cursors = cursors
@@ -139,9 +141,6 @@ class SpriteSet:
         target.blit(sprite, center_pos)
 
     def curse(self, target, position, key=None):
-        if key not in self.cursors:
-            key = None
-
         rect, spot = self.cursors[key]
         target.blit(self.graphics, Pt(position)-spot, area=rect)
 
