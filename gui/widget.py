@@ -1,4 +1,4 @@
-class widget:
+class Widget:
     def __init__(self, area):
         self.area = area
         self.cursor = None

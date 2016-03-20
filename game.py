@@ -2,13 +2,11 @@ __author__ = 'tryid_000'
 
 import pygame
 import pygame.locals
-
-import map as mm
-from mouse import Mouse
-from gui.gui import Gui
-from gui.button import Button
 from pygame.rect import Rect
+
 import sprite_loader as sl
+from gui import Map, Button, Gui
+from mouse import Mouse
 
 if __name__ == "__main__":
     pygame.init()
@@ -31,7 +29,7 @@ if __name__ == "__main__":
 
     spriteset = sl.load('sprite_tiles.xml')
 
-    world = mm.Map(Rect(0, 0, 700, 550))
+    world = Map(Rect(0, 0, 700, 550))
     world.load('mapdata.xml')
     world.sprites = spriteset
     gui.add(world)

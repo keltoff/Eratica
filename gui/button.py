@@ -1,10 +1,10 @@
-from widget import widget
+from widget import Widget
 import pygame.draw
 
 
-class Button(widget):
+class Button(Widget):
     def __init__(self, area, color):
-        widget.__init__(self, area)
+        Widget.__init__(self, area)
         self.color = color
         self.cursor = 'hand'
 
