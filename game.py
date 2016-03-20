@@ -13,24 +13,25 @@ import sprite_loader as sl
 if __name__ == "__main__":
     pygame.init()
 
-    display = pygame.display.set_mode((640, 480))
+    display = pygame.display.set_mode((800, 600))
 
     clock = pygame.time.Clock()
 
-    mouse = Mouse(display)
+    sl.sprite_dir = 'C:\Users\M\Desktop\graphics'
+    cursors = sl.load('cursors.xml')
+    mouse = Mouse(display, cursors)
 
     gui = Gui()
-    gui.add(Button(Rect(500, 50, 100, 40), (255, 200, 0)))
-    gui.add(Button(Rect(500, 110, 100, 40), (255, 200, 0)))
-    gui.add(Button(Rect(450, 400, 150, 50), (255, 200, 0)))
+    gui.add(Button(Rect(710, 50, 70, 40), (255, 200, 0)))
+    gui.add(Button(Rect(710, 110, 70, 40), (255, 200, 0)))
+    gui.add(Button(Rect(600, 560, 150, 35), (255, 200, 0)))
 
     # overlays = pygame.sprite.RenderUpdates()
     # pygame.display.flip()
 
-    sl.sprite_dir = 'C:\Users\M\Desktop\graphics'
     spriteset = sl.load('sprite_tiles.xml')
 
-    world = mm.Map(Rect(0, 0, 400, 400))
+    world = mm.Map(Rect(0, 0, 700, 550))
     world.load('mapdata.xml')
     world.sprites = spriteset
     gui.add(world)

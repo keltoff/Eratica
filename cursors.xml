@@ -1,0 +1,6 @@
+<set>
+    <graphics file="gamecursors_transparent.png" transparent="True"/>
+    <cursor key="normal" hotspot="(3,3)" rect="(82, 50, 50, 50)" default="True" />
+    <cursor key="hand" hotspot="(3,3)" rect="(307, 122, 50, 50)" />
+    <cursor key="frame" hotspot="(26,27)" rect="(5, 123, 52, 55)" />
+</set>

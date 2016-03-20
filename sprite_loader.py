@@ -4,7 +4,6 @@ from ast import literal_eval as evaluate
 import pygame
 from coords import Pt
 
-
 sprite_dir = '.'
 
 
@@ -30,7 +29,16 @@ def load(filename):
     for alias in root.findall('./alias'):
         sprites[alias.attrib['key']] = sprites[alias.attrib['means']]
 
+    cursors = dict()
+    for cnode in root.findall('./cursor'):
+        rect = pygame.Rect(evaluate(cnode.attrib['rect']))
+        hotspot = Pt(evaluate(cnode.attrib.get('hotspot', (0, 0))))
+        cursors[cnode.attrib['key']] = (rect, hotspot)
+        if cnode.attrib.get('default', False):
+            cursors[None] = cursors[cnode.attrib['key']]
+
     result.rects = sprites
+    result.cursors = cursors
     return result
 
 
@@ -130,6 +138,13 @@ class SpriteSet:
             center_pos = Pt(destination) - Pt(sprite.get_size())/2
         target.blit(sprite, center_pos)
 
+    def curse(self, target, position, key=None):
+        if key not in self.cursors:
+            key = None
+
+        rect, spot = self.cursors[key]
+        target.blit(self.graphics, Pt(position)-spot, area=rect)
+
     def test_draw(self, target):
         target.blit(self.graphics, (0, 0))
 
@@ -151,10 +166,12 @@ class SpriteSet:
                 self.transparency = True
             elif transparency in ['no', 'False', 'None']:
                 self.transparency = False
+            elif transparency in ['top_left', 'topleft']:
+                transparency = self.graphics.get_at((0, 0))
             elif transparency.__class__ == str:
                 transparency = evaluate(transparency)
     
-            if transparency.__class__ == tuple:
+            if transparency.__class__ in [tuple, pygame.Color]:
                 self.graphics.set_colorkey(transparency)
                 self.transparency = 'key'
     
