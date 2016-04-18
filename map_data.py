@@ -4,7 +4,7 @@ from ast import literal_eval as evaluate
 from itertools import product
 
 
-class MapData():
+class MapData:
     def __init__(self):
         self.data = None
         self.terrain = None
@@ -15,12 +15,12 @@ class MapData():
         self.monsters = None
 
     def __getitem__(self, item):
-        if item.__class__ == tuple:
+        if isinstance(item, tuple):
             x, y = item
             if len(self.data) > y and len(self.data[y]) > x:
                 return self.data[y][x]
         else:
-            return None, None
+            return None
 
     def __iter__(self):
         for y, x in product(range(len(self.data)), range(len(self.data[0]))):
@@ -38,6 +38,19 @@ class MapData():
 
         self.monsters = [Monster(m.attrib) for m in data.findall('.//places/monster')]
         self.places = [Cave(c.attrib) for c in data.findall('.//places/cave')]
+
+    def monsters_at(self, pos):
+        return [m for m in self.monsters if m.pos == pos]
+
+    def places_at(self, pos):
+        return [p for p in self.places if p.pos == pos]
+
+    def terrain_at(self, pos):
+        ter = self[pos]
+        if ter:
+            return self.terrain[ter]
+        else:
+            return None
 
     def neighborhood(self, x, y, ter):
         if not ter.borders:

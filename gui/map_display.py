@@ -19,9 +19,6 @@ class Map(Widget):
         self.scroll_speed = Pt(0, 0)
         self.keydir = __build_keydir__()
 
-        self.places = None
-        self.monsters = None
-
         self.sprites = None
         self.font = pygame.font.SysFont('default', 50)
 
@@ -79,7 +76,7 @@ class Map(Widget):
         else:
             return None
 
-    def tile_selected(self, pos):
+    def tile_selected(self, stuff):
         pass
 
     # event handling
@@ -91,7 +88,11 @@ class Map(Widget):
             self.scroll_speed -= self.keydir[event.key]
 
     def click(self, pos, button):
-        self.selected_tile = self.tile_at(pos)
+        tile = self.tile_at(pos)
+        self.selected_tile = tile
+        self.tile_selected({'terrain': self.data.terrain_at(tile),
+                            'places': self.data.places_at(tile),
+                            'monsters': self.data.monsters_at(tile)})
 
     def mouse_move(self, pos):
         pass

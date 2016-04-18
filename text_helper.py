@@ -1,7 +1,7 @@
 import pygame.font
 
 pygame.font.init()
-textfont = pygame.font.SysFont('default', 50)
+textfont = pygame.font.SysFont('default', 20)
 
 
 def draw_text(surface, text, pos, color=(0, 200, 0)):

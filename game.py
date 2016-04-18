@@ -1,11 +1,9 @@
-__author__ = 'tryid_000'
-
 import pygame
 import pygame.locals
 from pygame.rect import Rect
 
 import sprite_loader as sl
-from gui import Map, Button, Gui
+from gui import *
 from mouse import Mouse
 
 if __name__ == "__main__":
@@ -20,19 +18,23 @@ if __name__ == "__main__":
     mouse = Mouse(display, cursors)
 
     gui = Gui()
-    gui.add(Button(Rect(710, 50, 70, 40), (255, 200, 0)))
-    gui.add(Button(Rect(710, 110, 70, 40), (255, 200, 0)))
-    gui.add(Button(Rect(600, 560, 150, 35), (255, 200, 0)))
+    # gui.add(Button(Rect(710, 50, 70, 40), (255, 200, 0)))
+    # gui.add(Button(Rect(710, 110, 70, 40), (255, 200, 0)))
+    # gui.add(Button(Rect(600, 560, 150, 35), (255, 200, 0)))
 
     # overlays = pygame.sprite.RenderUpdates()
     # pygame.display.flip()
 
     spriteset = sl.load('sprite_tiles.xml')
 
-    world = Map(Rect(0, 0, 700, 550))
+    world = Map(Rect(0, 0, 600, 550))
     world.load('mapdata.xml')
     world.sprites = spriteset
     gui.add(world)
+
+    sidebar = StatsBar(Rect(620, 20, 150, 300), spriteset)
+    world.tile_selected = sidebar.display
+    gui.add(sidebar)
 
     game_over = False
     while not game_over:
