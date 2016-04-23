@@ -13,6 +13,7 @@ class MapData:
 
         self.places = None
         self.monsters = None
+        self.heroes = None
 
     def __getitem__(self, item):
         if isinstance(item, tuple):
@@ -38,12 +39,10 @@ class MapData:
 
         self.monsters = [Monster(m.attrib) for m in data.findall('.//places/monster')]
         self.places = [Cave(c.attrib) for c in data.findall('.//places/cave')]
+        self.heroes = [Hero(h.attrib) for h in data.findall('.//heroes/hero')]
 
-    def monsters_at(self, pos):
-        return [m for m in self.monsters if m.pos == pos]
-
-    def places_at(self, pos):
-        return [p for p in self.places if p.pos == pos]
+    def stuff_at(self, collection, pos):
+        return [s for s in collection if s.pos == pos]
 
     def terrain_at(self, pos):
         ter = self[pos]
@@ -113,3 +112,10 @@ class Cave:
 
     def draw(self, surface, pos_correction):
         target = pos_correction(self.pos)
+
+
+class Hero:
+    def __init__(self, data):
+        self.pos = Pt(evaluate(data['pos']))
+        self.sprite = data['sprite']
+        self.character_class = data['class']

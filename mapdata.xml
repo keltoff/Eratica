@@ -30,4 +30,8 @@
         <monster pos="(5, 2)" type="boar" color="(250, 0, 0)" />
         <monster pos="(4, 6)" type="drake" color="(250, 0, 0)" />
     </places>
+    <heroes>
+        <hero pos="(10, 4)" sprite="wizard" class="Mage" />
+        <hero pos="(11, 4)" sprite="digger" class="Shovel"/>
+    </heroes>
 </map>

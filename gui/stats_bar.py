@@ -27,14 +27,16 @@ class StatsBar(Widget):
         self.items = []
         if _has_any_(data, 'terrain'):
             self.add_item(TerrainBarItem, data['terrain'])
-        if _has_any_(data, 'places'):
-            self.add_item(TextBarItem, 'Places')
-            for p in data['places']:
-                self.add_item(PlaceBarItem, p)
-        if _has_any_(data, 'monsters'):
-            self.add_item(TextBarItem, 'Monsters')
-            for m in data['monsters']:
-                self.add_item(MonsterBarItem, m)
+
+        self.add_section(data, 'places', PlaceBarItem, 'Places')
+        self.add_section(data, 'heroes', HeroBarItem, 'Heroes')
+        self.add_section(data, 'monsters', MonsterBarItem, 'Monsters')
+
+    def add_section(self, data, key, item_class, section_name):
+        if _has_any_(data, key):
+            self.add_item(TextBarItem, section_name)
+            for x in data[key]:
+                self.add_item(item_class, x)
 
     def add_item(self, item_class, item_data):
         taken = sum((i.height + self.margin for i in self.items))
@@ -106,6 +108,18 @@ class TextBarItem(BarItem):
         BarItem.draw(self, surface)
         canvas = surface.subsurface(self.area)
         text_helper.draw_text(canvas, self.text, (7, 14), Color('gray'))
+
+
+class HeroBarItem(BarItem):
+    def __init__(self, area, bar, hero):
+        BarItem.__init__(self, area, bar)
+        self.hero = hero
+
+    def draw(self, surface):
+        BarItem.draw(self, surface)
+        canvas = surface.subsurface(self.area)
+        self.bar.sprites.blit(canvas, (16, 16), self.hero.sprite)
+        text_helper.draw_text(canvas, self.hero.character_class, (self.bar.tab, 7), Color('gray'))
 
 
 def _has_any_(dictionary, key):

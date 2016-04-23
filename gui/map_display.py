@@ -50,6 +50,9 @@ class Map(Widget):
         for m in self.data.monsters:
             self.sprites.blit(surface, tile.move(current_view(m.pos)), m.type)
 
+        for h in self.data.heroes:
+            self.sprites.blit(surface, tile.move(current_view(h.pos)), h.sprite)
+
         if self.selected_tile:
             # draw_text(surface, '{}'.format(self.selected_tile), self.area.topleft, (0, 200, 0))
             pygame.draw.rect(surface, pygame.Color('red'), tile.move(current_view(self.selected_tile)), 2)
@@ -91,8 +94,9 @@ class Map(Widget):
         tile = self.tile_at(pos)
         self.selected_tile = tile
         self.tile_selected({'terrain': self.data.terrain_at(tile),
-                            'places': self.data.places_at(tile),
-                            'monsters': self.data.monsters_at(tile)})
+                            'places': self.data.stuff_at(self.data.places, tile),
+                            'monsters': self.data.stuff_at(self.data.monsters, tile),
+                            'heroes': self.data.stuff_at(self.data.heroes, tile)})
 
     def mouse_move(self, pos):
         pass
