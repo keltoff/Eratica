@@ -40,12 +40,6 @@ if __name__ == "__main__":
     world.tile_selected = sidebar.display
     gui.add(sidebar)
 
-    ov1 = overlay.ColorOverlay(pygame.Color(250, 0, 0, 100))
-    ov1.selector = overlay.dist_L2(Pt(4, 4), maximum=2.5)
-    ov2 = overlay.ColorOverlay(pygame.Color(50, 0, 250, 150))
-    ov2.selector = overlay.dist_L1(Pt(10, 4), maximum=2)
-    world.overlay = [ov1, ov2]
-
     game_over = False
     while not game_over:
         world.update()

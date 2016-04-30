@@ -27,11 +27,11 @@
         <cave pos="(2, 3)" key="chest" color="(0, 0, 0)" />
         <cave pos="(9, 3)" key="chest" color="(0, 0, 0)" />
         <cave pos="(13, 1)" key="castle" color="(0, 0, 0)" />
-        <monster pos="(5, 2)" type="boar" color="(250, 0, 0)" />
-        <monster pos="(4, 6)" type="drake" color="(250, 0, 0)" />
+        <monster pos="(5, 2)" type="boar" color="(250, 0, 0)" range="2.5"/>
+        <monster pos="(4, 6)" type="drake" color="(250, 0, 0)" range="5"/>
     </places>
     <heroes>
-        <hero pos="(10, 4)" sprite="wizard" class="Mage" />
-        <hero pos="(11, 4)" sprite="digger" class="Shovel"/>
+        <hero pos="(10, 4)" sprite="wizard" class="Mage" range="4"/>
+        <hero pos="(11, 4)" sprite="digger" class="Shovel" range="2"/>
     </heroes>
 </map>

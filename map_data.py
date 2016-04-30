@@ -2,6 +2,7 @@ import xml.etree.ElementTree as et
 from auxiliary import Pt
 from ast import literal_eval as evaluate
 from itertools import product
+import math
 
 
 class MapData:
@@ -43,6 +44,16 @@ class MapData:
 
     def stuff_at(self, collection, pos):
         return [s for s in collection if s.pos == pos]
+
+    def stuff_near(self, collection, pos, range_fun):
+        if range_fun.__class__ == int:
+            range_fun = lambda _: range_fun
+
+        def dist(a, b):
+            d = a - b
+            return math.sqrt(d[0]*d[0] + d[1]*d[1])
+
+        return [s for s in collection if dist(pos, s.pos) <= range_fun(s)]
 
     def terrain_at(self, pos):
         ter = self[pos]
@@ -99,6 +110,7 @@ class Monster:
         self.pos = Pt(evaluate(data['pos']))
         self.type = data['type']
         self.color = evaluate(data['color'])
+        self.range = float(data['range'])
 
     def draw(self, surface, pos_correction):
         target = pos_correction(self.pos)
@@ -119,3 +131,4 @@ class Hero:
         self.pos = Pt(evaluate(data['pos']))
         self.sprite = data['sprite']
         self.character_class = data['class']
+        self.range = float(data['range'])

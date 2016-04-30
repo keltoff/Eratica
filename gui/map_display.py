@@ -6,7 +6,7 @@ from auxiliary import Pt, SafeDict
 from widget import Widget
 
 import map_data
-
+import overlay
 
 class Map(Widget):
     def __init__(self, area):
@@ -46,6 +46,10 @@ class Map(Widget):
                     subkey = self.data.neighborhood(x, y, ter)
                     self.sprites.blit(surface, target, ter['sprite'], subkey)
 
+                    for o in self.overlay:
+                        if o.relevant(Pt(x, y), ter):
+                            o.draw(surface.subsurface(target), Pt(x, y))
+
         for c in self.data.places:
             self.sprites.blit(surface, tile.move(current_view(c.pos)), c.key)
 
@@ -54,15 +58,6 @@ class Map(Widget):
 
         for h in self.data.heroes:
             self.sprites.blit(surface, tile.move(current_view(h.pos)), h.sprite)
-
-        if self.data:
-            for x, y, ter in self.data:
-                target = tile.move(current_view(Pt(x, y)))
-                if target.width > 0:
-                    for o in self.overlay:
-                        if o.relevant(Pt(x, y), ter):
-                            o.draw(surface.subsurface(target), Pt(x, y))
-
 
         if self.selected_tile:
             # draw_text(surface, '{}'.format(self.selected_tile), self.area.topleft, (0, 200, 0))
@@ -108,6 +103,24 @@ class Map(Widget):
                             'places': self.data.stuff_at(self.data.places, tile),
                             'monsters': self.data.stuff_at(self.data.monsters, tile),
                             'heroes': self.data.stuff_at(self.data.heroes, tile)})
+
+        ran = None
+        monsters = self.data.stuff_at(self.data.monsters, tile)
+        if monsters:
+            monster = monsters.pop()
+            ran = overlay.ColorOverlay(pygame.Color(250, 100, 0, 150))
+            ran.selector = overlay.dist_L2(monster.pos, monster.range)
+
+        heroes = self.data.stuff_at(self.data.heroes, tile)
+        if heroes:
+            hero = heroes.pop()
+            ran = overlay.ColorOverlay(pygame.Color(0, 250, 100, 150))
+            ran.selector = overlay.dist_L2(hero.pos, hero.range)
+
+        if ran:
+            self.overlay = [ran]
+        else:
+            self.overlay = []
 
     def mouse_move(self, pos):
         pass
