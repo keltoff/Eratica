@@ -22,7 +22,7 @@ class Map(Widget):
         self.sprites = None
         self.font = pygame.font.SysFont('default', 50)
 
-        self.overlay = []
+        self.overlay = dict()
 
     def load(self, filename):
         self.data.load(filename)
@@ -46,7 +46,7 @@ class Map(Widget):
                     subkey = self.data.neighborhood(x, y, ter)
                     self.sprites.blit(surface, target, ter['sprite'], subkey)
 
-                    for o in self.overlay:
+                    for o in self.overlay.values():
                         if o.relevant(Pt(x, y), ter):
                             o.draw(surface.subsurface(target), Pt(x, y))
 
@@ -99,28 +99,20 @@ class Map(Widget):
     def click(self, pos, button):
         tile = self.tile_at(pos)
         self.selected_tile = tile
+
+        monsters = self.data.stuff_at(self.data.monsters, tile)
+        heroes = self.data.stuff_at(self.data.heroes, tile)
+
         self.tile_selected({'terrain': self.data.terrain_at(tile),
                             'places': self.data.stuff_at(self.data.places, tile),
-                            'monsters': self.data.stuff_at(self.data.monsters, tile),
-                            'heroes': self.data.stuff_at(self.data.heroes, tile)})
-
-        ran = None
-        monsters = self.data.stuff_at(self.data.monsters, tile)
+                            'monsters': monsters,
+                            'heroes': heroes})
         if monsters:
-            monster = monsters.pop()
-            ran = overlay.ColorOverlay(pygame.Color(250, 100, 0, 150))
-            ran.selector = overlay.dist_L2(monster.pos, monster.range)
-
-        heroes = self.data.stuff_at(self.data.heroes, tile)
-        if heroes:
-            hero = heroes.pop()
-            ran = overlay.ColorOverlay(pygame.Color(0, 250, 100, 150))
-            ran.selector = overlay.dist_L2(hero.pos, hero.range)
-
-        if ran:
-            self.overlay = [ran]
+            self.overlay['range'] = overlay.MonsterOverlay(monsters.pop())
+        elif heroes:
+            self.overlay['range'] = overlay.HeroOverlay(heroes.pop())
         else:
-            self.overlay = []
+            self.overlay.pop('range', None)
 
     def mouse_move(self, pos):
         pass

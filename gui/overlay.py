@@ -26,6 +26,18 @@ class ColorOverlay(Overlay):
         surface.blit(self.shade, (0, 0))    # (0,0) are the top-left coordinates
 
 
+class HeroOverlay(ColorOverlay):
+    def __init__(self, hero):
+        ColorOverlay.__init__(self, pygame.Color(0, 250, 100, 150))
+        self.selector = dist_L2(hero.pos, hero.range)
+
+
+class MonsterOverlay(ColorOverlay):
+    def __init__(self, monster):
+        ColorOverlay.__init__(self, pygame.Color(250, 50, 0, 150))
+        self.selector = dist_L2(monster.pos, monster.range)
+
+
 def dist_L1(target, maximum):
     def selector(x, _):
         d = x - target
