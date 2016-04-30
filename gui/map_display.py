@@ -22,6 +22,8 @@ class Map(Widget):
         self.sprites = None
         self.font = pygame.font.SysFont('default', 50)
 
+        self.overlay = []
+
     def load(self, filename):
         self.data.load(filename)
 
@@ -52,6 +54,15 @@ class Map(Widget):
 
         for h in self.data.heroes:
             self.sprites.blit(surface, tile.move(current_view(h.pos)), h.sprite)
+
+        if self.data:
+            for x, y, ter in self.data:
+                target = tile.move(current_view(Pt(x, y)))
+                if target.width > 0:
+                    for o in self.overlay:
+                        if o.relevant(Pt(x, y), ter):
+                            o.draw(surface.subsurface(target), Pt(x, y))
+
 
         if self.selected_tile:
             # draw_text(surface, '{}'.format(self.selected_tile), self.area.topleft, (0, 200, 0))
