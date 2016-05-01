@@ -117,11 +117,13 @@ class Map(Widget):
 
         if monsters:
             self.overlay['range'] = overlay.MonsterOverlay(monsters[0])
+            self.selected_hero = None
         elif heroes:
             self.selected_hero = heroes[0]
             self.overlay['range'] = overlay.HeroOverlay(heroes[0])
         else:
             self.overlay.pop('range', None)
+            self.selected_hero = None
 
         self.tile_selected({'terrain': self.data.terrain_at(tile),
                             'places': self.data.stuff_at(self.data.places, tile),
