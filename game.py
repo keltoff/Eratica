@@ -9,6 +9,8 @@ from mouse import Mouse
 import gui.overlay as overlay
 from auxiliary import Pt
 
+import windows.window as w
+
 
 if __name__ == "__main__":
     pygame.init()
@@ -22,9 +24,15 @@ if __name__ == "__main__":
     mouse = Mouse(display, cursors)
 
     gui = Gui()
+    draw_stack = w.WinStack(gui)
+
     # gui.add(Button(Rect(710, 50, 70, 40), (255, 200, 0)))
     # gui.add(Button(Rect(710, 110, 70, 40), (255, 200, 0)))
     # gui.add(Button(Rect(600, 560, 150, 35), (255, 200, 0)))
+
+    win_bt = Button(Rect(600, 560, 150, 35), pygame.Color('green'))
+    win_bt.click = lambda a, b: draw_stack.open(w.TestWindow((100, 100)))
+    gui.add(win_bt)
 
     # overlays = pygame.sprite.RenderUpdates()
     # pygame.display.flip()
@@ -44,11 +52,12 @@ if __name__ == "__main__":
     while not game_over:
         world.update()
 
-        c = gui.get_cursor_at(mouse.get_pos())
+        current_gui = draw_stack.top
+        c = current_gui.get_cursor_at(mouse.get_pos())
 
         # XXX draw all the objects here
         display.fill((0, 0, 0))
-        gui.draw(display)
+        current_gui.draw(display)
         mouse.draw(display, c)
 
         # overlays = pygame.sprite.RenderUpdates()
@@ -58,4 +67,4 @@ if __name__ == "__main__":
         for event in pygame.event.get():
             if event.type == pygame.locals.QUIT:
                 game_over = True
-            gui.process_event(event)
+            current_gui.process_event(event)

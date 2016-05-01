@@ -14,11 +14,11 @@ class Gui:
     def process_event(self, event):
 
         if event.type == pl.MOUSEMOTION:
-            part = self.get_part_at(event.pos)
+            part = self.get_part_at(Pt(event.pos))
             if part:
                 part.mouse_move(Pt(event.pos))
         elif event.type == pl.MOUSEBUTTONDOWN:
-            part = self.get_part_at(event.pos)
+            part = self.get_part_at(Pt(event.pos))
             if part:
                 part.click(Pt(event.pos), event.button)
 
@@ -36,7 +36,7 @@ class Gui:
         return None
 
     def get_cursor_at(self, pos):
-        part = self.get_part_at(pos)
+        part = self.get_part_at(Pt(pos))
         if part:
             return part.get_cursor(part_pos(part, pos))
         else:
