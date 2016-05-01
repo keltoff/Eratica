@@ -16,6 +16,7 @@ class Map(Widget):
         self.origin = Pt(0, 0)
         self.frame_color = (255, 200, 150)
         self.selected_tile = None
+        self.selected_hero = None
         self.scroll_speed = Pt(0, 0)
         self.keydir = __build_keydir__()
 
@@ -98,21 +99,34 @@ class Map(Widget):
 
     def click(self, pos, button):
         tile = self.tile_at(pos)
+        if button == 1:
+            self.select_tile(tile)
+        if button == 3 and self.selected_hero:
+            if self.data.stuff_at(self.data.monsters, tile):
+                # fight monsters and stuff
+                pass
+            else:
+                self.selected_hero.pos = tile
+                self.select_tile(tile)
+
+    def select_tile(self, tile):
         self.selected_tile = tile
 
-        monsters = self.data.stuff_at(self.data.monsters, tile)
         heroes = self.data.stuff_at(self.data.heroes, tile)
+        monsters = self.data.stuff_at(self.data.monsters, tile)
+
+        if monsters:
+            self.overlay['range'] = overlay.MonsterOverlay(monsters[0])
+        elif heroes:
+            self.selected_hero = heroes[0]
+            self.overlay['range'] = overlay.HeroOverlay(heroes[0])
+        else:
+            self.overlay.pop('range', None)
 
         self.tile_selected({'terrain': self.data.terrain_at(tile),
                             'places': self.data.stuff_at(self.data.places, tile),
                             'monsters': monsters,
                             'heroes': heroes})
-        if monsters:
-            self.overlay['range'] = overlay.MonsterOverlay(monsters.pop())
-        elif heroes:
-            self.overlay['range'] = overlay.HeroOverlay(heroes.pop())
-        else:
-            self.overlay.pop('range', None)
 
     def mouse_move(self, pos):
         pass
