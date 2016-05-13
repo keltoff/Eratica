@@ -8,6 +8,7 @@ from widget import Widget
 import map_data
 import overlay
 
+
 class Map(Widget):
     def __init__(self, area):
         Widget.__init__(self, area)
@@ -102,8 +103,10 @@ class Map(Widget):
         if button == 1:
             self.select_tile(tile)
         if button == 3 and self.selected_hero:
-            if self.data.stuff_at(self.data.monsters, tile):
-                # fight monsters and stuff
+            mon = self.data.stuff_at(self.data.monsters, tile)
+            if mon:
+                self.start_fight(self.selected_hero, mon[0])
+
                 pass
             else:
                 self.selected_hero.pos = tile
@@ -129,6 +132,9 @@ class Map(Widget):
                             'places': self.data.stuff_at(self.data.places, tile),
                             'monsters': monsters,
                             'heroes': heroes})
+
+    def start_fight(self, hero, monster):
+        pass
 
     def mouse_move(self, pos):
         pass

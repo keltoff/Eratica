@@ -9,7 +9,7 @@ from mouse import Mouse
 import gui.overlay as overlay
 from auxiliary import Pt
 
-import windows.window as w
+import windows as win
 
 
 if __name__ == "__main__":
@@ -24,14 +24,14 @@ if __name__ == "__main__":
     mouse = Mouse(display, cursors)
 
     gui = Gui()
-    draw_stack = w.WinStack(gui)
+    draw_stack = win.WinStack(gui)
 
     # gui.add(Button(Rect(710, 50, 70, 40), (255, 200, 0)))
     # gui.add(Button(Rect(710, 110, 70, 40), (255, 200, 0)))
     # gui.add(Button(Rect(600, 560, 150, 35), (255, 200, 0)))
 
     win_bt = Button(Rect(600, 560, 150, 35), pygame.Color('green'))
-    win_bt.click = lambda a, b: draw_stack.open(w.TestWindow((100, 100)))
+    win_bt.click = lambda a, b: draw_stack.open(win.TestWindow((100, 100)))
     gui.add(win_bt)
 
     # overlays = pygame.sprite.RenderUpdates()
@@ -42,6 +42,7 @@ if __name__ == "__main__":
     world = Map(Rect(0, 0, 600, 550))
     world.load('mapdata.xml')
     world.sprites = spriteset
+    world.start_fight = lambda h, m: draw_stack.open(win.CombatWindow(h, m))
     gui.add(world)
 
     sidebar = StatsBar(Rect(620, 20, 150, 300), spriteset)
