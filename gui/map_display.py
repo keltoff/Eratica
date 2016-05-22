@@ -75,7 +75,10 @@ class Map(Widget):
             self.origin = Pt(self.origin.x, 0)
 
     def get_cursor(self, pos):
-        if self.tile_at(pos):
+        tile = self.tile_at(pos)
+        if self.selected_hero and self.data.stuff_at(self.data.monsters, tile):
+            return 'strike'
+        elif self.tile_at(pos):
             return 'frame'
         else:
             return None
