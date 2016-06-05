@@ -2,6 +2,7 @@ from widget import Widget
 import pygame.draw
 from pygame import Color, Rect
 import text_helper
+import stats_helper
 
 
 class StatsBar(Widget):
@@ -66,13 +67,15 @@ class TerrainBarItem(BarItem):
     def __init__(self, area, bar, terrain):
         BarItem.__init__(self, area, bar)
         self.terrain = terrain
-        self.area.height = 40
+        self.area.height = 65
 
     def draw(self, surface):
         BarItem.draw(self, surface)
         canvas = surface.subsurface(self.area)
         self.bar.sprites.blit(canvas, (20, 20), self.terrain['sprite'])
         text_helper.draw_text(canvas, self.terrain['name'], (self.bar.tab, 12), Color('gray'))
+        stats_helper.draw(canvas, (self.bar.tab, 40), self.terrain.get_n('food'), 'green')
+        stats_helper.draw(canvas, (self.bar.tab, 55), self.terrain.get_n('material'), 'blue')
 
 
 class MonsterBarItem(BarItem):

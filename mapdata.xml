@@ -8,21 +8,30 @@
         ~~~...~~.......
         ~~~~~~~~..+....
     </data>
-    <terrain name="plain" key="." sprite="grass" color="(0, 100, 100)" />
+    <terrain name="plain"
+             key="."
+             sprite="grass"
+             color="(0, 100, 100)"
+             food="1" />
     <terrain key="x"
              name="forest"
              sprite="tree"
              borders="yes" corners="yes"
-             color="(100, 100, 100)" />
+             color="(100, 100, 100)"
+             food="12"
+             material="32"/>
     <terrain key="+"
              name="stump"
              sprite="stump"
-             color="(0, 250, 0)" />
+             color="(0, 250, 0)"
+             food="7"
+             material="9"/>
     <terrain key="~"
              name="water"
              sprite="water"
              borders="yes"
-             color="(250, 0, 0)" />
+             color="(250, 0, 0)"
+             food="18" />
     <places>
         <cave pos="(2, 3)" key="chest" color="(0, 0, 0)" />
         <cave pos="(9, 3)" key="chest" color="(0, 0, 0)" />

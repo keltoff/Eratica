@@ -96,6 +96,9 @@ class TerrainType:
     def __getitem__(self, item):
         return self.stats[item]
 
+    def get_n(self, index):
+        return int(self.stats.get(index, 0))
+
     @property
     def borders(self):
         return self.stats.get('borders', False)
